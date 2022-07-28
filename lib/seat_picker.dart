@@ -2,11 +2,16 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seat_picker/models/seat_layout.dart';
 import 'package:seat_picker/src/bloc/seat/seat_bloc.dart';
 import 'package:seat_picker/models/seat.dart';
 import 'package:seat_picker/models/seat_position.dart';
 import 'package:seat_picker/utils/ui_utils.dart';
 
+///
+/// [seats] is list of most updated seats that has been just changed,
+/// [seat] is the seat that has been just added or removed
+///
 typedef SeatListsChanged = void Function(List<Seat> seats, Seat seat);
 
 class SeatPicker extends StatelessWidget {
@@ -20,10 +25,21 @@ class SeatPicker extends StatelessWidget {
   final List<Seat> allSeats;
   final List<Seat>? selectedSeats;
   final List<Seat> bookedSeats;
+
+  /// This can be either:
+  /// [SeatLayout.oneOne], [SeatLayout.oneTwo], [SeatLayout.twoTwo],
+  /// [SeatLayout.twoOne], [SeatLayout.twoThree], or [SeatLayout.threeTwo]
   final String seatLayout;
+
+  /// String containing path to image asset for booked seat item
   final String bookedSeatAsset;
+
+  /// String containing path to image asset for selected seat item
   final String selectedSeatAsset;
+
+  /// String containing path to image asset for selected free item
   final String freeSeatAsset;
+
   final SeatListsChanged onSeatSelected;
 
   const SeatPicker(
@@ -40,7 +56,6 @@ class SeatPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('rebuild');
     SeatBloc seatBloc = SeatBloc(SeatInitial());
 
     seatBloc.add(SetSeats(seats: selectedSeats ?? []));
@@ -48,7 +63,6 @@ class SeatPicker extends StatelessWidget {
       create: (context) => seatBloc,
       child: BlocBuilder<SeatBloc, SeatState>(
         builder: (context, state) {
-          print('seat state $state');
           List<Seat> selectedSeats = [];
           if (state is SeatInitial) {
           } else if (state is SeatsSeat) {
