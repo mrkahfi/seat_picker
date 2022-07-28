@@ -11,7 +11,9 @@ part 'seat_state.dart';
 class SeatBloc extends Bloc<SeatEvent, SeatState> {
   List<Seat> seats = [];
 
-  SeatBloc() : super(SeatInitial());
+  SeatBloc(SeatState initialState) : super(initialState) {
+    print('instatiating bloc');
+  }
 
   @override
   Stream<SeatState> mapEventToState(
@@ -19,14 +21,18 @@ class SeatBloc extends Bloc<SeatEvent, SeatState> {
   ) async* {
     if (event is SetSeats) {
       seats = event.seats;
-      yield SeatAdded(seats: seats);
+      yield SeatsSeat(seats: seats);
     } else if (event is AddSeat) {
       seats.add(event.seat);
-      yield SeatAdded(seats: seats);
+      yield SeatAdded(seats: seats, seat: event.seat);
     } else if (event is RemoveSeat) {
-      for (var seat in seats) {}
       seats.removeWhere((element) => element == event.seat);
-      yield SeatRemoved(seats: seats);
+      yield SeatRemoved(seats: seats, seat: event.seat);
     }
+  }
+
+  @override
+  Future<void> close() {
+    return super.close();
   }
 }

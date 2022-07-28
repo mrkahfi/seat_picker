@@ -1,10 +1,13 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:seat_picker/bloc/seat/seat_bloc.dart';
+import 'package:seat_picker/src/bloc/seat/seat_bloc.dart';
 import 'package:seat_picker/models/seat.dart';
 import 'package:seat_picker/models/seat_position.dart';
 import 'package:seat_picker/utils/ui_utils.dart';
+
+typedef SeatListsChanged = void Function(List<Seat> seats, Seat seat);
 
 class SeatPicker extends StatelessWidget {
   static const MethodChannel _channel = MethodChannel('seat_picker');
@@ -15,35 +18,54 @@ class SeatPicker extends StatelessWidget {
   }
 
   final List<Seat> allSeats;
+  final List<Seat>? selectedSeats;
   final List<Seat> bookedSeats;
   final String seatLayout;
+  final String bookedSeatAsset;
+  final String selectedSeatAsset;
+  final String freeSeatAsset;
+  final SeatListsChanged onSeatSelected;
 
   const SeatPicker(
       {Key? key,
       required this.allSeats,
+      this.selectedSeats,
       required this.bookedSeats,
-      required this.seatLayout})
+      required this.seatLayout,
+      required this.onSeatSelected,
+      required this.bookedSeatAsset,
+      required this.selectedSeatAsset,
+      required this.freeSeatAsset})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SeatBloc, SeatState>(
-      builder: (context, state) {
-        List<Seat> selectedSeats = [];
-        if (state is SeatInitial) {
-          selectedSeats = [];
-        } else if (state is SeatAdded) {
-          selectedSeats = state.seats;
-        } else if (state is SeatRemoved) {
-          selectedSeats = state.seats;
-        }
+    print('rebuild');
+    SeatBloc seatBloc = SeatBloc(SeatInitial());
 
-        return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children:
-                _buildCells(context, allSeats, selectedSeats, bookedSeats));
-      },
+    seatBloc.add(SetSeats(seats: selectedSeats ?? []));
+    return BlocProvider<SeatBloc>(
+      create: (context) => seatBloc,
+      child: BlocBuilder<SeatBloc, SeatState>(
+        builder: (context, state) {
+          print('seat state $state');
+          List<Seat> selectedSeats = [];
+          if (state is SeatInitial) {
+          } else if (state is SeatsSeat) {
+            selectedSeats = state.seats;
+          } else if (state is SeatAdded) {
+            selectedSeats = state.seats;
+          } else if (state is SeatRemoved) {
+            selectedSeats = state.seats;
+          }
+
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children:
+                  _buildCells(context, allSeats, selectedSeats, bookedSeats));
+        },
+      ),
     );
   }
 
@@ -69,10 +91,8 @@ class SeatPicker extends StatelessWidget {
 
           Image image = Image.asset(
             booked
-                ? 'assets/images/seat_booked.png'
-                : (selected
-                    ? 'assets/images/seat_selected.png'
-                    : 'assets/images/seat_free.png'),
+                ? bookedSeatAsset
+                : (selected ? selectedSeatAsset : freeSeatAsset),
           );
 
           var item = InkWell(
@@ -80,9 +100,11 @@ class SeatPicker extends StatelessWidget {
                 ? null
                 : () {
                     if (!selected) {
+                      _addSeatToCallbackSeats(selectedSeats, seat);
                       BlocProvider.of<SeatBloc>(context)
                           .add(AddSeat(seat: seat));
                     } else {
+                      _removeSeatFromCallbackSeats(selectedSeats, seat);
                       BlocProvider.of<SeatBloc>(context)
                           .add(RemoveSeat(seat: seat));
                     }
@@ -169,5 +191,21 @@ class SeatPicker extends StatelessWidget {
       }
     }
     return seats;
+  }
+
+  void _addSeatToCallbackSeats(selectedSeats, seat) {
+    List<Seat> seats = List.from(selectedSeats
+        .map((e) => e.copyWith(no: e.no, deck: e.deck, position: e.position))
+        .toList());
+    seats.add(seat);
+    onSeatSelected(seats, seat);
+  }
+
+  void _removeSeatFromCallbackSeats(selectedSeats, seat) {
+    List<Seat> seats = List.from(selectedSeats
+        .map((e) => e.copyWith(no: e.no, deck: e.deck, position: e.position))
+        .toList());
+    seats.removeWhere((element) => element == seat);
+    onSeatSelected(seats, seat);
   }
 }

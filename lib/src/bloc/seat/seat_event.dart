@@ -11,9 +11,6 @@ class AddSeat extends SeatEvent {
   const AddSeat({required this.seat});
 
   @override
-  String toString() => 'AddSeat';
-
-  @override
   List<Object> get props => [];
 }
 
@@ -23,10 +20,6 @@ class SetSeats extends SeatEvent {
   const SetSeats({required this.seats});
 
   @override
-  String toString() => 'SetSeats';
-
-  @override
-// TODO: implement props
   List<Object> get props => [seats];
 }
 
@@ -34,9 +27,6 @@ class RemoveSeat extends SeatEvent {
   final Seat seat;
 
   const RemoveSeat({required this.seat});
-
-  @override
-  String toString() => 'RemoveSeat';
 
   @override
   List<Object> get props => [];
