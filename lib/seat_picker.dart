@@ -9,10 +9,8 @@ import 'package:seat_picker/utils/ui_utils.dart';
 
 typedef SeatListsChanged = void Function(List<Seat> seats, Seat seat);
 
-///
 /// [seats] is list of most updated seats that has been just changed,
 /// [seat] is the seat that has been just added or removed
-///
 class SeatPicker extends StatelessWidget {
   static const MethodChannel _channel = MethodChannel('seat_picker');
 
@@ -41,6 +39,8 @@ class SeatPicker extends StatelessWidget {
 
   final SeatListsChanged onSeatSelected;
 
+  /// [seats] is list of most updated seats that has been just changed,
+  /// [seat] is the seat that has been just added or removed
   const SeatPicker(
       {Key? key,
       required this.allSeats,
