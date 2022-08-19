@@ -43,8 +43,7 @@ flutter:
       ios:
         pluginClass: SeatPickerPlugin
       web:
-        pluginClass: SeatPickerWeb
-        fileName: seat_picker_web.dart
+        pluginClass: SeatPickerPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   assets:
