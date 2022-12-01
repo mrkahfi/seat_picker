@@ -55,11 +55,9 @@ class SeatPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SeatBloc seatBloc = SeatBloc(SeatInitial());
-
-    seatBloc.add(SetSeats(seats: selectedSeats ?? []));
     return BlocProvider<SeatBloc>(
-      create: (context) => seatBloc,
+      create: (context) =>
+          SeatBloc(SeatInitial())..add(SetSeats(seats: selectedSeats ?? [])),
       child: BlocBuilder<SeatBloc, SeatState>(
         builder: (context, state) {
           List<Seat> selectedSeats = [];
