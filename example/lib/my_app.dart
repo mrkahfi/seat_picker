@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seat_picker/models/seat_layout.dart';
 import 'package:seat_picker/seat_picker.dart';
 import 'package:seat_picker/widgets/my_bus_button.dart';
+import 'package:seat_picker/gen/assets.gen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -26,9 +27,9 @@ class MyApp extends StatelessWidget {
                     onSeatSelected: (seats, seat) {
                       debugPrint('seats ${seats.length}, seat: ${seat.no}');
                     },
-                    bookedSeatAsset: 'assets/images/seat_booked.png',
-                    freeSeatAsset: 'assets/images/seat_free.png',
-                    selectedSeatAsset: 'assets/images/seat_selected.png',
+                    bookedSeatAsset: Assets.images.seatBooked.path,
+                    freeSeatAsset: Assets.images.seatFree.path,
+                    selectedSeatAsset: Assets.images.seatSelected.path,
                   ),
                 ),
                 Container(
