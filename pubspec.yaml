@@ -25,9 +25,21 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   json_serializable: ^6.1.5
   build_runner: ^1.7.1
+  flutter_gen_runner:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_gen:
+  output: lib/gen/ # Optional (default: lib/gen/)
+  line_length: 80 # Optional (default: 80)
+
+  # Optional
+  integrations:
+    flutter_svg: true
+    flare_flutter: true
+    rive: true
+    lottie: true
 
 # The following section is specific to Flutter.
 flutter:
