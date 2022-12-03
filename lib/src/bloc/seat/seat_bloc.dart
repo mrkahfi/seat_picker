@@ -12,27 +12,28 @@ class SeatBloc extends Bloc<SeatEvent, SeatState> {
   List<Seat> seats = [];
 
   SeatBloc(SeatState initialState) : super(initialState) {
-    print('instatiating bloc');
-  }
-
-  @override
-  Stream<SeatState> mapEventToState(
-    SeatEvent event,
-  ) async* {
-    if (event is SetSeats) {
-      seats = event.seats;
-      yield SeatsSeat(seats: seats);
-    } else if (event is AddSeat) {
-      seats.add(event.seat);
-      yield SeatAdded(seats: seats, seat: event.seat);
-    } else if (event is RemoveSeat) {
-      seats.removeWhere((element) => element == event.seat);
-      yield SeatRemoved(seats: seats, seat: event.seat);
-    }
+    on<SetSeats>(_onSetSeats);
+    on<AddSeat>(_onAddSeat);
+    on<RemoveSeat>(_onRemoveSeat);
   }
 
   @override
   Future<void> close() {
     return super.close();
+  }
+
+  FutureOr<void> _onSetSeats(SetSeats event, Emitter<SeatState> emit) {
+    seats = event.seats;
+    emit(SeatsSeat(seats: seats));
+  }
+
+  FutureOr<void> _onAddSeat(AddSeat event, Emitter<SeatState> emit) {
+    seats.add(event.seat);
+    emit(SeatAdded(seats: seats, seat: event.seat));
+  }
+
+  FutureOr<void> _onRemoveSeat(RemoveSeat event, Emitter<SeatState> emit) {
+    seats.removeWhere((element) => element == event.seat);
+    emit(SeatRemoved(seats: seats, seat: event.seat));
   }
 }

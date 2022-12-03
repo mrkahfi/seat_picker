@@ -29,13 +29,13 @@ class SeatPicker extends StatelessWidget {
   final String seatLayout;
 
   /// String containing path to image asset for booked seat item
-  final String bookedSeatAsset;
+  final Image bookedSeatAsset;
 
   /// String containing path to image asset for selected seat item
-  final String selectedSeatAsset;
+  final Image selectedSeatAsset;
 
   /// String containing path to image asset for selected free item
-  final String freeSeatAsset;
+  final Image freeSeatAsset;
 
   final SeatListsChanged onSeatSelected;
 
@@ -100,11 +100,9 @@ class SeatPicker extends StatelessWidget {
           bool selected =
               selectedSeats.indexWhere((element) => element.no == seat.no) >= 0;
 
-          Image image = Image.asset(
-            booked
-                ? bookedSeatAsset
-                : (selected ? selectedSeatAsset : freeSeatAsset),
-          );
+          Image image = booked
+              ? bookedSeatAsset
+              : (selected ? selectedSeatAsset : freeSeatAsset);
 
           var item = InkWell(
             onTap: booked
