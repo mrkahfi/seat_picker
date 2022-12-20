@@ -26,7 +26,7 @@ class SeatPicker extends StatelessWidget {
   /// This can be either:
   /// [SeatLayout.oneOne], [SeatLayout.oneTwo], [SeatLayout.twoTwo],
   /// [SeatLayout.twoOne], [SeatLayout.twoThree], or [SeatLayout.threeTwo]
-  final String seatLayout;
+  final SeatLayout seatLayout;
 
   /// String containing path to image asset for booked seat item
   final String bookedSeatAsset;
@@ -82,8 +82,8 @@ class SeatPicker extends StatelessWidget {
 
   List<Row> _buildCells(BuildContext context, List<Seat> allSeats,
       List<Seat> selectedSeats, List<Seat> bookedSeats) {
-    double cellHeight = UiUtils.computeCellHeight(context, allSeats);
-    double cellWidth = UiUtils.computeCellWidth(context, seatLayout);
+    double cellHeight = seatLayout.computeCellHeight(context, allSeats);
+    double cellWidth = seatLayout.computeCellWidth(context);
 
     int rowCount = allSeats.last.position.row;
     List<Row> rows = List.generate(rowCount, (rowIndex) {
