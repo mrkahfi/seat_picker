@@ -27,9 +27,12 @@ class MyApp extends StatelessWidget {
                     onSeatSelected: (seats, seat) {
                       debugPrint('seats ${seats.length}, seat: ${seat.no}');
                     },
-                    bookedSeatAsset: Assets.images.seatBooked.path,
-                    freeSeatAsset: Assets.images.seatFree.path,
-                    selectedSeatAsset: Assets.images.seatSelected.path,
+                    bookedSeatAsset:
+                        Assets.images.seatBooked.image(package: 'seat_picker'),
+                    freeSeatAsset:
+                        Assets.images.seatFree.image(package: 'seat_picker'),
+                    selectedSeatAsset: Assets.images.seatSelected
+                        .image(package: 'seat_picker'),
                   ),
                 ),
                 Container(
