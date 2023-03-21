@@ -16,6 +16,8 @@ dependencies:
   equatable: ^2.0.0
   json_annotation: ^4.6.0
   collection: any
+  flutter_screenutil: ^5.7.0
+
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,6 @@ import 'package:seat_picker/models/seat_layout.dart';
 import 'package:seat_picker/src/bloc/seat/seat_bloc.dart';
 import 'package:seat_picker/models/seat.dart';
 import 'package:seat_picker/models/seat_position.dart';
-import 'package:seat_picker/utils/ui_utils.dart';
 
 typedef SeatListsChanged = void Function(List<Seat> seats, Seat seat);
 
@@ -119,22 +118,19 @@ class SeatPicker extends StatelessWidget {
                     }
                   },
             child: Container(
-              width: cellWidth,
-              height: cellHeight,
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Stack(
-                children: [
-                  Center(child: image),
-                  Center(
-                    child: Text(
-                      seat.no,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 12),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                width: cellWidth,
+                height: cellHeight,
+                decoration: BoxDecoration(
+                    image:
+                        DecorationImage(image: image.image, fit: BoxFit.fill)),
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Center(
+                  child: Text(
+                    seat.no,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 12),
+                  ),
+                )),
           );
           return item;
         } else {
