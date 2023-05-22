@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:seat_picker/gen/assets.gen.dart';
 import 'package:seat_picker/models/seat_layout.dart';
 import 'package:seat_picker/seat_picker.dart';
-import 'package:seat_picker/widgets/my_bus_button.dart';
-import 'package:seat_picker/gen/assets.gen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,8 +40,8 @@ class MyApp extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: MyBusButton(
-                    'OK',
+                  child: ElevatedButton(
+                    child: const Text('OK'),
                     onPressed: () {},
                   ),
                 )
