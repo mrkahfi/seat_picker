@@ -13,6 +13,7 @@ class MyBusDialogHorizontal extends StatelessWidget {
   final String? asset;
 
   const MyBusDialogHorizontal({
+    super.key,
     required this.title,
     required this.description,
     this.positiveButtonText = 'OK',

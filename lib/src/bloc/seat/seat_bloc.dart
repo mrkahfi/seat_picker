@@ -17,11 +17,6 @@ class SeatBloc extends Bloc<SeatEvent, SeatState> {
     on<RemoveSeat>(_onRemoveSeat);
   }
 
-  @override
-  Future<void> close() {
-    return super.close();
-  }
-
   FutureOr<void> _onSetSeats(SetSeats event, Emitter<SeatState> emit) {
     seats = event.seats;
     emit(SeatsSeat(seats: seats));

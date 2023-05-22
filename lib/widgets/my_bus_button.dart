@@ -16,7 +16,6 @@ class MyBusButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       height: height,
       decoration: BoxDecoration(
@@ -73,7 +72,6 @@ class MyBusButtonSecondary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       height: height,
       decoration: BoxDecoration(
